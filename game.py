@@ -11,7 +11,6 @@ run = True
 while run:
     
     
-    
     pygame.draw.rect(screen,(255,0,0), player)
     
     key = pygame.key.get_pressed()
