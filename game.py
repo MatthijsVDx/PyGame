@@ -10,7 +10,7 @@ player = pygame.Rect((300,250,50,50))
 run = True
 while run:
     
-    
+    .
     
     pygame.draw.rect(screen,(255,0,0), player)
     
