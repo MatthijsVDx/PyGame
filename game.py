@@ -1,40 +1,50 @@
 import pygame
+from sys import exit
+
 pygame.init()
 
+screen  = pygame.display.set_mode((800, 400))
+pygame.display.set_caption("Runner")
 
-screen_height = 600
-screen_width = 800
+# variable framerate
+clock = pygame.time.Clock()
 
-screen = pygame.display.set_mode((screen_width, screen_height))
+test_font = pygame.font.Font( "font\Pixeltype.ttf", 50)
 
-player = pygame.Rect((300,250,50,50))
 
-run = True
-while run:
+
+sky_surface = pygame.image.load("graphics\Sky.png").convert()
+ground_surface = pygame.image.load("graphics\ground.png").convert()
+text_surface = test_font.render("My Game", False, "black").convert()
+
+enemy_surface = pygame.image.load("graphics\snail\snail1.png").convert_alpha()
+snail_x_pos = 900
+snail_y_pos = 275
+
+while True:
     
-    player.move_ip(1,1)
-    screen.fill((0,0,0))
-    pygame.draw.rect(screen,(255,0,0), player)
     
-    key = pygame.key.get_pressed()
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            exit()
+    
+    screen.blit(sky_surface, (0,0))
+    screen.blit(ground_surface, (0, 300))
+    screen.blit(text_surface, (300,50))
 
-#Moving up
-    if key [pygame.K_w] == True:
-        player.move_ip(0, -2)
+    snail_x_pos -= 4
+    if snail_x_pos < -100:
+        snail_x_pos += 900
+    screen.blit(enemy_surface, (snail_x_pos, snail_y_pos))
 
-    elif key [pygame.K_ESCAPE] == True:
-        pygmae.QUIT
     
-    white = (255,255,255)
     
-    groundstart_pos = (200, 200)
-    groundend_pos = (800, 200)
-    ground_height = 10
     
-    pygame.draw.line(screen, white, groundstart_pos, groundend_pos, ground_height)
     
- 
-            
-    pygame.display.update()        
-pygame.quit()
-
+    
+    
+    
+    #framerate
+    clock.tick(60)
+    pygame.display.update()
