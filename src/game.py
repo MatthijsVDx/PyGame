@@ -6,9 +6,9 @@ import time
 pygame.init()
 
 # Constants
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 600 
-CUBE_SIZE = 50 
+SCREEN_WIDTH = 1200
+SCREEN_HEIGHT = 750 
+CUBE_SIZE = 65
 PLATFORM_HEIGHT = 20
 INITIAL_CUBE_SPEED = 5  # 5 pixels per frame
 JUMP_HEIGHT = 20  # 15 pixels per frame
@@ -27,12 +27,12 @@ pygame.display.set_caption("Geometry Dash")
 background_image = pygame.image.load("assets/background/bg.png").convert()
 background_image = pygame.transform.scale(background_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
 
-cube_image = pygame.image.load("assets/player/cube_player.png").convert()
+cube_image = pygame.image.load("assets/player/cube_player.png").convert_alpha()
 cube_image = pygame.transform.scale(cube_image, (CUBE_SIZE, CUBE_SIZE))
 
 ground_image = pygame.image.load("assets/platforms/main-platform/ground_1.png").convert()
-ground_width, ground_height = ground_image.get_size()
-ground_image = pygame.transform.scale(ground_image, (int(ground_width * 0.25), int(ground_height * 0.25)))
+ground_width, ground_height = ground_image.get_size() 
+ground_image = pygame.transform.scale(ground_image, (int(ground_width * 0.75), int(ground_height * 0.75)))
 ground_width, ground_height = ground_image.get_size()
 
 
@@ -49,19 +49,22 @@ pygame.mixer.music.play(-1)  # -1 means the music will loop indefinitely
 
 # Cube position and velocity
 cube_x = 100
-cube_y = SCREEN_HEIGHT - ground_height - CUBE_SIZE
+cube_y = SCREEN_HEIGHT - ground_height - CUBE_SIZE 
 cube_y_velocity = 0
 is_jumping = False
 
 # Ground segments
-ground_segments = [(i * ground_width, SCREEN_HEIGHT - ground_height) for i in range(3)]
+ground_segments = [(i * ground_width, SCREEN_HEIGHT - ground_height / 2) for i in range(3)]
+ground_height = ground_height // 2
 
 # Timer
 start_time = time.time()
 
+# Initialize background position
+background_x = 0
+
 # Game loop
 running = True
-cube_speed = INITIAL_CUBE_SPEED
 
 while running:
   for event in pygame.event.get():
@@ -71,8 +74,8 @@ while running:
   # Calculate elapsed time
   elapsed_time = time.time() - start_time
 
-  # Increase speed every second
-  cube_speed = INITIAL_CUBE_SPEED * (1 + SPEED_INCREASE_RATE * int(elapsed_time))
+  # Cube speed
+  cube_speed = 12.5
 
   # Move the cube automatically to the right
   cube_x += cube_speed
@@ -98,10 +101,14 @@ while running:
   # Calculate the offset to keep the cube centered
   offset_x = cube_x - SCREEN_WIDTH // 2
 
-  pygame.mixer.init()
+  # Move the background to the left
+  background_x -= 1
+  if background_x <= -SCREEN_WIDTH:
+    background_x = 0
 
-  # Clear the screen
-  screen.blit(background_image, (0, 0))
+  # Clear the screen and draw the background
+  screen.blit(background_image, (background_x, 0))
+  screen.blit(background_image, (background_x + SCREEN_WIDTH, 0))
 
   # Draw the ground segments
   for segment in ground_segments:
@@ -123,7 +130,7 @@ while running:
   screen.blit(timer_text, (10, 10))
 
   # Update the display
-  pygame.display.flip()
+  pygame.display.update()
 
   # Cap the frame rate
   pygame.time.Clock().tick(60)
