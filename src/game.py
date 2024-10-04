@@ -24,19 +24,21 @@ screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Geometry Dash")
 
 # Load images
-background_image = pygame.image.load("assets/background/game-background_clouds.png")
+background_image = pygame.image.load("assets/background/bg.png")
 background_image = pygame.transform.scale(background_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
 
 cube_image = pygame.image.load("assets/player/cube_player.png")
 cube_image = pygame.transform.scale(cube_image, (CUBE_SIZE, CUBE_SIZE))
 
-ground_image = pygame.image.load("assets/platforms/main-platform/main_platform.png")
+ground_image = pygame.image.load("assets/platforms/main-platform/ground.png")
 ground_width, ground_height = ground_image.get_size()
-ground_image = pygame.transform.scale(ground_image, (int(ground_width * 0.3), int(ground_height * 0.3)))
+ground_image = pygame.transform.scale(ground_image, (int(ground_width * 0.25), int(ground_height * 0.25)))
 ground_width, ground_height = ground_image.get_size()
 
+
+
 # Load music
-pygame.mixer.music.load('music/Clubstep.mp3')
+pygame.mixer.music.load('songs/Clubstep.mp3')
 
 # Set volume
 MUSIC_VOLUME = 0.1  # Volume level from 0.0 to 1.0
