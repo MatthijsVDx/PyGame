@@ -30,8 +30,8 @@ background_image = pygame.transform.scale(background_image, (SCREEN_WIDTH, SCREE
 cube_image = pygame.image.load("assets/player/cube_player.png").convert_alpha()
 cube_image = pygame.transform.scale(cube_image, (CUBE_SIZE, CUBE_SIZE))
 
-ground_image = pygame.image.load("assets/platforms/main-platform/ground_1.png").convert()
-ground_width, ground_height = ground_image.get_size() 
+ground_image = pygame.image.load("assets/platforms/main-platform/ground.png").convert()
+ground_width, ground_height = ground_image.get_size()
 ground_image = pygame.transform.scale(ground_image, (int(ground_width * 0.75), int(ground_height * 0.75)))
 ground_width, ground_height = ground_image.get_size()
 
