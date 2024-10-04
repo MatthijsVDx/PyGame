@@ -35,6 +35,16 @@ ground_width, ground_height = ground_image.get_size()
 ground_image = pygame.transform.scale(ground_image, (int(ground_width * 0.3), int(ground_height * 0.3)))
 ground_width, ground_height = ground_image.get_size()
 
+# Load music
+pygame.mixer.music.load('music/Clubstep.mp3')
+
+# Set volume
+MUSIC_VOLUME = 0.1  # Volume level from 0.0 to 1.0
+pygame.mixer.music.set_volume(MUSIC_VOLUME)
+
+# Play the music
+pygame.mixer.music.play(-1)  # -1 means the music will loop indefinitely
+
 # Cube position and velocity
 cube_x = 100
 cube_y = SCREEN_HEIGHT - ground_height - CUBE_SIZE
@@ -85,6 +95,8 @@ while running:
 
   # Calculate the offset to keep the cube centered
   offset_x = cube_x - SCREEN_WIDTH // 2
+
+  pygame.mixer.init()
 
   # Clear the screen
   screen.blit(background_image, (0, 0))
