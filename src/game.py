@@ -6,9 +6,9 @@ import time
 pygame.init()
 
 # Constants
-SCREEN_WIDTH = 1200
-SCREEN_HEIGHT = 750 
-CUBE_SIZE = 65
+SCREEN_WIDTH = 800
+SCREEN_HEIGHT = 600 
+CUBE_SIZE = 50 
 PLATFORM_HEIGHT = 20
 INITIAL_CUBE_SPEED = 5  # 5 pixels per frame
 JUMP_HEIGHT = 20  # 15 pixels per frame
@@ -31,8 +31,8 @@ cube_image = pygame.image.load("assets/player/cube_player.png").convert_alpha()
 cube_image = pygame.transform.scale(cube_image, (CUBE_SIZE, CUBE_SIZE))
 
 ground_image = pygame.image.load("assets/platforms/main-platform/ground_1.png").convert()
-ground_width, ground_height = ground_image.get_size() 
-ground_image = pygame.transform.scale(ground_image, (int(ground_width * 0.75), int(ground_height * 0.75)))
+ground_width, ground_height = ground_image.get_size()
+ground_image = pygame.transform.scale(ground_image, (int(ground_width * 0.25), int(ground_height * 0.25)))
 ground_width, ground_height = ground_image.get_size()
 
 
