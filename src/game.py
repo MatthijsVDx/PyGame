@@ -7,8 +7,8 @@ pygame.init()
 
 # Constants
 SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 600 
-CUBE_SIZE = 50 
+SCREEN_HEIGHT = 400 
+CUBE_SIZE = 52
 PLATFORM_HEIGHT = 20
 INITIAL_CUBE_SPEED = 5  # 5 pixels per frame
 JUMP_HEIGHT = 20  # 15 pixels per frame
@@ -24,16 +24,19 @@ screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Geometry Dash")
 
 # Load images
-background_image = pygame.image.load("assets/background/bg.png").convert()
+background_image = pygame.image.load("assets/background/background.png").convert()
 background_image = pygame.transform.scale(background_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
 
 cube_image = pygame.image.load("assets/player/cube_player.png").convert_alpha()
 cube_image = pygame.transform.scale(cube_image, (CUBE_SIZE, CUBE_SIZE))
 
-ground_image = pygame.image.load("assets/platforms/main-platform/ground_1.png").convert()
+ground_image = pygame.image.load("assets/platforms/main-platform/floor.png").convert()
 ground_width, ground_height = ground_image.get_size()
-ground_image = pygame.transform.scale(ground_image, (int(ground_width * 0.25), int(ground_height * 0.25)))
+ground_image = pygame.transform.scale(ground_image, (int(ground_width * 1.5), int(ground_height * 1.5)))
 ground_width, ground_height = ground_image.get_size()
+
+obs_1_image = pygame.image.load("assets\spikes\obstacle_1.png").convert()
+obs_1_image = pygame.transform.scale(obs_1_image, (75, 75))
 
 
 
@@ -75,7 +78,7 @@ while running:
   elapsed_time = time.time() - start_time
 
   # Cube speed
-  cube_speed = 12.5
+  cube_speed = 16
 
   # Move the cube automatically to the right
   cube_x += cube_speed
@@ -102,7 +105,7 @@ while running:
   offset_x = cube_x - SCREEN_WIDTH // 2
 
   # Move the background to the left
-  background_x -= 1
+  background_x -= 0.8
   if background_x <= -SCREEN_WIDTH:
     background_x = 0
 
@@ -114,6 +117,8 @@ while running:
   for segment in ground_segments:
     segment_x, segment_y = segment
     screen.blit(ground_image, (segment_x - offset_x, segment_y))
+     #screen.blit(obs_1_image, (600, segment_y /1.32))
+
 
   # Regenerate ground segments
   if ground_segments[0][0] - offset_x < -ground_width:
@@ -134,6 +139,9 @@ while running:
 
   # Cap the frame rate
   pygame.time.Clock().tick(60)
+  
+  # draw obstacle
+
 
 pygame.quit()
 sys.exit()
