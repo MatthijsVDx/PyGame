@@ -21,7 +21,7 @@ BLACK = (0, 0, 0)
 
 # Set up the display
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption("Geometry Dash")
+pygame.display.set_caption("Jumanji Dash")
 
 # Load images
 background_image = pygame.image.load("assets/background/background.png").convert()
@@ -37,8 +37,6 @@ ground_width, ground_height = ground_image.get_size()
 
 obs_1_image = pygame.image.load("assets\spikes\obstacle_1.png").convert()
 obs_1_image = pygame.transform.scale(obs_1_image, (75, 75))
-
-
 
 # Load music
 pygame.mixer.music.load('songs/Clubstep.mp3')
@@ -117,7 +115,7 @@ while running:
   for segment in ground_segments:
     segment_x, segment_y = segment
     screen.blit(ground_image, (segment_x - offset_x, segment_y))
-     #screen.blit(obs_1_image, (600, segment_y /1.32))
+    #screen.blit(obs_1_image, (600, segment_y /1.32))
 
 
   # Regenerate ground segments
@@ -141,7 +139,7 @@ while running:
   pygame.time.Clock().tick(60)
   
   # draw obstacle
-
+  #screen.blit(obs_1_image, (600, segment_y /1.32))
 
 pygame.quit()
 sys.exit()
