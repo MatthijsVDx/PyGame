@@ -2,6 +2,7 @@ import pygame
 import sys
 import time
 
+
 # Initialize Pygame
 pygame.init()
 
@@ -35,8 +36,9 @@ ground_width, ground_height = ground_image.get_size()
 ground_image = pygame.transform.scale(ground_image, (int(ground_width * 1.5), int(ground_height * 1.5)))
 ground_width, ground_height = ground_image.get_size()
 
-obs_1_image = pygame.image.load("assets\spikes\obstacle_1.png").convert()
+obs_1_image = pygame.image.load("assets\spikes\obstacle_1.png").convert_alpha()
 obs_1_image = pygame.transform.scale(obs_1_image, (75, 75))
+#obs_1_hitbox = obs_1_image.get_t
 
 # Load music
 pygame.mixer.music.load('songs/Clubstep.mp3')
@@ -107,6 +109,7 @@ while running:
   if background_x <= -SCREEN_WIDTH:
     background_x = 0
 
+
   # Clear the screen and draw the background
   screen.blit(background_image, (background_x, 0))
   screen.blit(background_image, (background_x + SCREEN_WIDTH, 0))
@@ -118,7 +121,7 @@ while running:
     #screen.blit(obs_1_image, (600, segment_y /1.32))
 
 
-  # Regenerate ground segments
+  # Regenerate ground segments/
   if ground_segments[0][0] - offset_x < -ground_width:
     ground_segments.pop(0)
     new_segment_x = ground_segments[-1][0] + ground_width
