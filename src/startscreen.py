@@ -29,6 +29,14 @@ play_btn_rect = sc_play_btn.get_rect(midbottom = (600,325))
 sc_quit_btn = pygame.image.load("assets/tekst/quit.png").convert()
 quit_btn_rect = sc_quit_btn.get_rect(midbottom = (200,325))
 
+#Tutorial Button
+#sc_quit_btn = pygame.image.load("assets/tekst/tutorial.png").convert()
+#quit_btn_rect = sc_quit_btn.get_rect(midbottom = (200,325))
+
+#Settings Button
+#sc_quit_btn = pygame.image.load("assets/tekst/settings.png").convert()
+#quit_btn_rect = sc_quit_btn.get_rect(midbottom = (200,325))
+
 #startscreen game name
 game_name_image = pygame.image.load("assets/tekst/jumanji_dash.png").convert()
 game_name = pygame.transform.scale(game_name_image, (250, 125))
@@ -56,6 +64,5 @@ while running:
     screen.blit(sc_play_btn, play_btn_rect)
     screen.blit(sc_quit_btn, quit_btn_rect)
 
-    
 pygame.quit()
 sys.exit()
