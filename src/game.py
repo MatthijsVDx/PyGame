@@ -42,22 +42,34 @@ ground_width, ground_height = ground_image.get_size()
 obs_1_image = pygame.image.load("assets\spikes\obstacle_1.png").convert_alpha()
 obs_1_image = pygame.transform.scale(obs_1_image, (75, 75)) 
 
-#load images
-sc_background = pygame.image.load("assets/background/bg_startscreen.png")
+
+
+#startscreen background
+sc_background_size = pygame.image.load("assets/background/bg_startscreen.png")
+sc_background = pygame.transform.scale(sc_background_size, (800, 400))
 sc_decoration = pygame.image.load("assets/tekst/decoration.png")
 
+#startscreen game name
+game_name_image = pygame.image.load("assets/tekst/jumanji_dash.png").convert_alpha()
+game_name = pygame.transform.scale(game_name_image, (380, 75))
+game_name_rect = game_name.get_rect(midbottom = (212.5, 90))
+
+#Tutorial Button
+sc_tutorial_btn = pygame.image.load("assets/tekst/tutorial.png").convert_alpha()
+tutorial_btn_rect = sc_tutorial_btn.get_rect(midbottom = (100,230))
+
 #Play Button
-sc_play_btn = pygame.image.load("assets/tekst/play.png").convert()
-play_btn_rect = sc_play_btn.get_rect(midbottom = (600,325))
+sc_play_btn = pygame.image.load("assets/tekst/play.png").convert_alpha()
+play_btn_rect = sc_play_btn.get_rect(midbottom = (78,285))
 
 #Quit Button
-sc_quit_btn = pygame.image.load("assets/tekst/quit.png").convert()
-quit_btn_rect = sc_quit_btn.get_rect(midbottom = (200,325))
+sc_quit_btn = pygame.image.load("assets/tekst/quit.png").convert_alpha()
+quit_btn_rect = sc_quit_btn.get_rect(midbottom = (74,345))
 
-#startscreen game name
-game_name_image = pygame.image.load("assets/tekst/jumanji_dash.png").convert()
-game_name = pygame.transform.scale(game_name_image, (250, 125))
-game_name_rect = game_name.get_rect(midbottom = (400, 170))
+#settings Button
+sc_setting_btn = pygame.image.load("assets/tekst/setting.png").convert_alpha()
+setting_btn_rect = sc_setting_btn.get_rect(midbottom = (750,75))
+
 
 # Load music
 pygame.mixer.music.load('songs/Clubstep.mp3')
@@ -66,6 +78,7 @@ pygame.mixer.music.load('songs/Clubstep.mp3')
 MUSIC_VOLUME = 0.1  # Volume level from 0.0 to 1.0
 pygame.mixer.music.set_volume(MUSIC_VOLUME)
 
+#function for music
 def play_music():
   pygame.mixer.music.play(-1)  # -1 means the music will loop indefinitely
   
@@ -97,7 +110,7 @@ while running:
             running = False
                 
 
-    #display main or menu screen
+    #main screen
     if current_screen == 'main':
       #start playing the song once and dont loop it
       if count < 1:
@@ -165,7 +178,8 @@ while running:
 
       # Cap the frame rate
       pygame.time.Clock().tick(60)
-      
+    
+    #menu screen
     elif current_screen == 'menu':
       
       if event.type == pygame.MOUSEBUTTONDOWN:  # Check for mouse click
@@ -173,23 +187,46 @@ while running:
 
           # Check if the click is within the rect
           if play_btn_rect.collidepoint(mouse_pos):
-                  current_screen = "main"
+            current_screen = "main"
+            
+          elif tutorial_btn_rect.collidepoint(mouse_pos):
+            current_screen = 'tutorial'
+            
           elif quit_btn_rect.collidepoint(mouse_pos):
-                  running = False
+            running = False
+            
+          elif setting_btn_rect.collidepoint(mouse_pos):
+            #add settings screen here could be a small screen on the menu screen
+            print("Setting button is pressed")
+
                 
+      #tutorial screen
+      elif current_screen == "tutorial":
+        pass  
       
+          
       #Load images menu on screen
       screen.blit(sc_background, (0,0))
       screen.blit(game_name, game_name_rect)
-      screen.blit(sc_decoration, (70,200))
-      screen.blit(sc_play_btn, play_btn_rect)
-      screen.blit(sc_quit_btn, quit_btn_rect)
 
+      screen.blit(sc_play_btn, play_btn_rect)
+      screen.blit(sc_tutorial_btn, tutorial_btn_rect)
+      screen.blit(sc_quit_btn, quit_btn_rect)
+      screen.blit(sc_setting_btn, setting_btn_rect)
+      
+      screen.blit(sc_decoration, (45,235))
+      screen.blit(sc_decoration, (45,290))
+      screen.blit(sc_decoration, (45,350))
+
+      
+      
           # Update the display
       pygame.display.update()
 
         # Cap the frame rate
       pygame.time.Clock().tick(60)
+      
+      
       
 
     
