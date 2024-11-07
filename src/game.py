@@ -116,7 +116,7 @@ while running:
       if count < 1:
         play_music()
       else:
-        pass
+        pass 
       
       #add one so the song dont keep repeating
       count += 1
