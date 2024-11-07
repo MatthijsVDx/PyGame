@@ -132,7 +132,7 @@ while running:
 
       # Handle jumping and descending
       keys = pygame.key.get_pressed()
-      if (keys[pygame.K_w] or keys[pygame.K_UP]) and not is_jumping:
+      if (keys[pygame.K_w] or keys[pygame.K_UP] or keys[pygame.K_SPACE])and not is_jumping:
         cube_y_velocity = -JUMP_HEIGHT
         is_jumping = True
       if (keys[pygame.K_s] or keys[pygame.K_DOWN]) and is_jumping:
