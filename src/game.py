@@ -54,6 +54,31 @@ game_name_image = pygame.image.load("assets/tekst/jumanji_dash.png").convert_alp
 game_name = pygame.transform.scale(game_name_image, (380, 75))
 game_name_rect = game_name.get_rect(midbottom = (212.5, 90))
 
+#settings screen
+setting_bg = pygame.image.load("assets/tekst/setting_sc/setting_bg.png").convert_alpha()
+exit_btn = pygame.image.load("assets/tekst/setting_sc/exit_btn.png").convert_alpha()
+exit_btn_rect = exit_btn.get_rect(midbottom = (715,125))
+volume_icon = pygame.image.load("assets/tekst/setting_sc/volume.png").convert_alpha()
+volume_line = pygame.image.load("assets/tekst/setting_sc/volume_line.png").convert_alpha()
+
+point1 = pygame.image.load("assets/tekst/setting_sc/point1.png").convert_alpha()
+point1_rect = point1.get_rect(midbottom = (275, 243))
+
+point2 = pygame.image.load("assets/tekst/setting_sc/point2.png").convert_alpha()
+point2_rect = point1.get_rect(midbottom = (375, 243))
+
+point3 = pygame.image.load("assets/tekst/setting_sc/point3.png").convert_alpha()
+point3_rect = point1.get_rect(midbottom = (475, 243))
+
+point4 = pygame.image.load("assets/tekst/setting_sc/point4.png").convert_alpha()
+point4_rect = point1.get_rect(midbottom = (585, 243))
+
+point5 = pygame.image.load("assets/tekst/setting_sc/point5.png").convert_alpha()
+point5_rect = point1.get_rect(midbottom = (700, 243))
+
+selector = pygame.image.load("assets/tekst/setting_sc/selector.png").convert_alpha()
+selector_rect = selector.get_rect(midbottom = (475, 243))
+
 #Tutorial Button
 sc_tutorial_btn = pygame.image.load("assets/tekst/tutorial.png").convert_alpha()
 tutorial_btn_rect = sc_tutorial_btn.get_rect(midbottom = (100,230))
@@ -109,9 +134,42 @@ while running:
         if event.type == pygame.QUIT:
             running = False
                 
+    if current_screen == 'menu':
+      
+      #Load images menu on screen
+      screen.blit(sc_background, (0,0))
+      screen.blit(game_name, game_name_rect)
+
+      screen.blit(sc_play_btn, play_btn_rect)
+      screen.blit(sc_tutorial_btn, tutorial_btn_rect)
+      screen.blit(sc_quit_btn, quit_btn_rect)
+      screen.blit(sc_setting_btn, setting_btn_rect)
+        
+      screen.blit(sc_decoration, (45,235))
+      screen.blit(sc_decoration, (45,290))
+      screen.blit(sc_decoration, (45,350))
+      
+      pygame.display.update()
+
+      
+    if event.type == pygame.MOUSEBUTTONDOWN:  # Check for mouse click
+      mouse_pos = pygame.mouse.get_pos()  #Mouse position
+
+      # Check if the click is within the rect
+      if play_btn_rect.collidepoint(mouse_pos):
+        current_screen = "main"
+              
+      elif tutorial_btn_rect.collidepoint(mouse_pos):
+        current_screen = 'tutorial'
+              
+      elif quit_btn_rect.collidepoint(mouse_pos):
+        running = False
+              
+      elif setting_btn_rect.collidepoint(mouse_pos):
+        current_screen = 'setting'
 
     #main screen
-    if current_screen == 'main':
+    elif current_screen == 'main':
       #start playing the song once and dont loop it
       if count < 1:
         play_music()
@@ -178,49 +236,37 @@ while running:
 
       # Cap the frame rate
       pygame.time.Clock().tick(60)
+
     
-    #menu screen
-    elif current_screen == 'menu':
+    #setting screen
+    elif current_screen == 'setting':
+      screen.blit(setting_bg, (80,80))
+      screen.blit(exit_btn, exit_btn_rect)
+      screen.blit(volume_icon, (140, 170))
+      screen.blit(volume_line, (265, 205))
+      
+      screen.blit(point1, point1_rect)
+      screen.blit(point2, point2_rect)
+      screen.blit(point3, point3_rect)
+      screen.blit(point4, point4_rect)
+      screen.blit(point5, point5_rect)
+      screen.blit(selector, selector_rect)
       
       if event.type == pygame.MOUSEBUTTONDOWN:  # Check for mouse click
-          mouse_pos = pygame.mouse.get_pos()  #Mouse position
+        mouse_pos = pygame.mouse.get_pos()  #Mouse position
 
-          # Check if the click is within the rect
-          if play_btn_rect.collidepoint(mouse_pos):
-            current_screen = "main"
-            
-          elif tutorial_btn_rect.collidepoint(mouse_pos):
-            current_screen = 'tutorial'
-            
-          elif quit_btn_rect.collidepoint(mouse_pos):
-            running = False
-            
-          elif setting_btn_rect.collidepoint(mouse_pos):
-            #add settings screen here could be a small screen on the menu screen
-            print("Setting button is pressed")
-
-                
-      #tutorial screen
-      elif current_screen == "tutorial":
-        pass  
+      # Check if the click is within the rect
+      if exit_btn_rect.collidepoint(mouse_pos):
+        current_screen = "menu"
       
-          
-      #Load images menu on screen
-      screen.blit(sc_background, (0,0))
-      screen.blit(game_name, game_name_rect)
+      pygame.display.update()
 
-      screen.blit(sc_play_btn, play_btn_rect)
-      screen.blit(sc_tutorial_btn, tutorial_btn_rect)
-      screen.blit(sc_quit_btn, quit_btn_rect)
-      screen.blit(sc_setting_btn, setting_btn_rect)
-      
-      screen.blit(sc_decoration, (45,235))
-      screen.blit(sc_decoration, (45,290))
-      screen.blit(sc_decoration, (45,350))
-
+    #tutorial screen
+    elif current_screen == "tutorial":
+      pass  
       
       
-          # Update the display
+      # Update the display
       pygame.display.update()
 
         # Cap the frame rate
