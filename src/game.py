@@ -139,6 +139,9 @@ background_x = 0
 # Initialize tutorial page index
 tutorial_page = 1
 
+# Initialize clock
+clock = pygame.time.Clock()
+
 # Function to update tutorial screen
 def update_tutorial_screen():
   screen.blit(sc_tutorial_bg, (-20, 0))
@@ -225,7 +228,7 @@ while running:
     timer_text = font.render(f"Time: {int(elapsed_time)}s", True, WHITE)
     screen.blit(timer_text, (10, 10))
     pygame.display.flip()
-    pygame.time.Clock().tick(60)
+    clock.tick(60)
   elif current_screen == 'setting':
     screen.blit(setting_bg, (80, 80))
     screen.blit(exit_btn, exit_btn_rect)
