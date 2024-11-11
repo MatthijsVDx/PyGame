@@ -2,7 +2,6 @@ import pygame
 import sys
 import time
 
-
 # Initialize Pygame
 pygame.init()
 
@@ -12,11 +11,11 @@ SCREEN_HEIGHT = 400
 CUBE_SIZE = 52
 PLATFORM_HEIGHT = 20
 INITIAL_CUBE_SPEED = 5  # 5 pixels per frame
-JUMP_HEIGHT = 20  # 15 pixels per frame
+JUMP_HEIGHT = 20  # 20 pixels per frame
 GRAVITY = 1  # 1 pixel per frame
 SPEED_INCREASE_RATE = 0.05 
 
-#screen management
+# Screen management
 current_screen = 'menu'
 
 # Colors
@@ -39,10 +38,8 @@ ground_width, ground_height = ground_image.get_size()
 ground_image = pygame.transform.scale(ground_image, (int(ground_width * 1.5), int(ground_height * 1.5)))
 ground_width, ground_height = ground_image.get_size()
 
-obs_1_image = pygame.image.load("assets\spikes\obstacle_1.png").convert_alpha()
+obs_1_image = pygame.image.load("assets/spikes/obstacle_1.png").convert_alpha()
 obs_1_image = pygame.transform.scale(obs_1_image, (75, 75)) 
-
-
 
 #startscreen background
 sc_background_size = pygame.image.load("assets/background/bg_startscreen.png")
@@ -81,7 +78,21 @@ selector_rect = selector.get_rect(midbottom = (475, 243))
 
 #Tutorial Button
 sc_tutorial_btn = pygame.image.load("assets/tekst/tutorial.png").convert_alpha()
+sc_tutorial1_btn = pygame.image.load("assets/explanation/nl/1.png").convert_alpha()
+sc_tutorial2_btn = pygame.image.load("assets/explanation/nl/2.png").convert_alpha()
+sc_tutorial3_btn = pygame.image.load("assets/explanation/nl/3.png").convert_alpha()
+sc_tutorial4_btn = pygame.image.load("assets/explanation/nl/4.png").convert_alpha()
+sc_tutorial5_btn = pygame.image.load("assets/explanation/nl/5.png").convert_alpha()
+sc_tutorial6_btn = pygame.image.load("assets/explanation/nl/6.png").convert_alpha()
+sc_tutorial_btn_back = pygame.image.load("assets/buttons/arrow_back.png").convert_alpha()
+sc_tutorial_btn_forward = pygame.image.load("assets/buttons/arrow_forward.png").convert_alpha()
+sc_tutorial_bg = pygame.image.load("assets/background/tutorial_bg.png").convert_alpha()
+home_button_image = pygame.image.load("assets/buttons/home_button.png").convert_alpha()
+home_button_image = pygame.transform.scale(home_button_image, (50, 50))
+home_button_rect = home_button_image.get_rect(topleft=(10, 10))
 tutorial_btn_rect = sc_tutorial_btn.get_rect(midbottom = (100,230))
+tutorial_btn_forward_rect = sc_tutorial_btn_forward.get_rect(midbottom = (775,250))
+tutorial_btn_back_rect = sc_tutorial_btn_back.get_rect(midbottom = (25,250))
 
 #Play Button
 sc_play_btn = pygame.image.load("assets/tekst/play.png").convert_alpha()
@@ -94,7 +105,6 @@ quit_btn_rect = sc_quit_btn.get_rect(midbottom = (74,345))
 #settings Button
 sc_setting_btn = pygame.image.load("assets/tekst/setting.png").convert_alpha()
 setting_btn_rect = sc_setting_btn.get_rect(midbottom = (750,75))
-
 
 # Load music
 pygame.mixer.music.load('songs/Clubstep.mp3')
@@ -126,8 +136,25 @@ start_time = time.time()
 # Initialize background position
 background_x = 0
 
+# Initialize tutorial page index
+tutorial_page = 1
 
-# Game loop
+# Initialize clock
+clock = pygame.time.Clock()
+
+# Function to update tutorial screen
+def update_tutorial_screen():
+  screen.blit(sc_tutorial_bg, (-20, 0))
+  tutorial_images = [sc_tutorial1_btn, sc_tutorial2_btn, sc_tutorial3_btn, sc_tutorial4_btn, sc_tutorial5_btn, sc_tutorial6_btn]
+  screen.blit(tutorial_images[tutorial_page - 1], (55, 21))
+
+  if tutorial_page > 1:
+    screen.blit(sc_tutorial_btn_back, tutorial_btn_back_rect)
+  if tutorial_page < 6:
+    screen.blit(sc_tutorial_btn_forward, tutorial_btn_forward_rect)
+  screen.blit(home_button_image, home_button_rect)
+
+# Main game loop
 running = True
 while running:
     for event in pygame.event.get():
@@ -224,7 +251,7 @@ while running:
         ground_segments.append((new_segment_x, SCREEN_HEIGHT - ground_height))
 
       # Draw the cube at the center of the screen
-      screen.blit(cube_image, (SCREEN_WIDTH // 2 - CUBE_SIZE // 2, cube_y)) 
+      screen.blit(cube_image, (SCREEN_WIDTH // 2 - CUBE_SIZE // 2, cube_y))
 
       # Draw the timer
       font = pygame.font.SysFont(None, 36)
