@@ -224,7 +224,7 @@ while running:
         ground_segments.append((new_segment_x, SCREEN_HEIGHT - ground_height))
 
       # Draw the cube at the center of the screen
-      screen.blit(cube_image, (SCREEN_WIDTH // 2 - CUBE_SIZE // 2, cube_y))
+      screen.blit(cube_image, (SCREEN_WIDTH // 2 - CUBE_SIZE // 2, cube_y)) 
 
       # Draw the timer
       font = pygame.font.SysFont(None, 36)
