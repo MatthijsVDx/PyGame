@@ -13,7 +13,8 @@ PLATFORM_HEIGHT = 20
 INITIAL_CUBE_SPEED = 5  # 5 pixels per frame
 JUMP_HEIGHT = 20  # 20 pixels per frame
 GRAVITY = 1  # 1 pixel per frame
-SPEED_INCREASE_RATE = 0.05 
+SPEED_INCREASE_RATE = 0.05
+current_pos = (265, 180)
 
 # Screen management
 current_screen = 'menu'
@@ -27,67 +28,67 @@ screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Geometry Dash")
 
 # Load images
-background_image = pygame.image.load("assets/background/background.png").convert()
+background_image = pygame.image.load("./background/background.png").convert()
 background_image = pygame.transform.scale(background_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
 
-cube_image = pygame.image.load("assets/player/cube_player.png").convert_alpha()
+cube_image = pygame.image.load("./player/cube_player.png").convert_alpha()
 cube_image = pygame.transform.scale(cube_image, (CUBE_SIZE, CUBE_SIZE))
 
-ground_image = pygame.image.load("assets/platforms/main-platform/floor.png").convert()
+ground_image = pygame.image.load("./platforms/main-platform/floor.png").convert()
 ground_width, ground_height = ground_image.get_size()
 ground_image = pygame.transform.scale(ground_image, (int(ground_width * 1.5), int(ground_height * 1.5)))
 ground_width, ground_height = ground_image.get_size()
 
-obs_1_image = pygame.image.load("assets/spikes/obstacle_1.png").convert_alpha()
+obs_1_image = pygame.image.load("./spikes/obstacle_1.png").convert_alpha()
 obs_1_image = pygame.transform.scale(obs_1_image, (75, 75)) 
 
 #startscreen background
-sc_background_size = pygame.image.load("assets/background/bg_startscreen.png")
+sc_background_size = pygame.image.load("./background/bg_startscreen.png")
 sc_background = pygame.transform.scale(sc_background_size, (800, 400))
-sc_decoration = pygame.image.load("assets/tekst/decoration.png")
+sc_decoration = pygame.image.load("./tekst/decoration.png")
 
 #startscreen game name
-game_name_image = pygame.image.load("assets/tekst/jumanji_dash.png").convert_alpha()
+game_name_image = pygame.image.load("./tekst/jumanji_dash.png").convert_alpha()
 game_name = pygame.transform.scale(game_name_image, (380, 75))
 game_name_rect = game_name.get_rect(midbottom = (212.5, 90))
 
 #settings screen
-setting_bg = pygame.image.load("assets/tekst/setting_sc/setting_bg.png").convert_alpha()
-exit_btn = pygame.image.load("assets/tekst/setting_sc/exit_btn.png").convert_alpha()
+setting_bg = pygame.image.load("./background/volume_bg.png").convert_alpha()
+exit_btn = pygame.image.load("./tekst/setting_sc/exit_btn.png").convert_alpha()
 exit_btn_rect = exit_btn.get_rect(midbottom = (715,125))
-volume_icon = pygame.image.load("assets/tekst/setting_sc/volume.png").convert_alpha()
-volume_line = pygame.image.load("assets/tekst/setting_sc/volume_line.png").convert_alpha()
+volume_icon = pygame.image.load("./tekst/setting_sc/volume.png").convert_alpha()
+volume_line = pygame.image.load("./tekst/setting_sc/volume_line.png").convert_alpha()
 
-point1 = pygame.image.load("assets/tekst/setting_sc/point1.png").convert_alpha()
+point1 = pygame.image.load("./tekst/setting_sc/point1.png").convert_alpha()
 point1_rect = point1.get_rect(midbottom = (275, 243))
 
-point2 = pygame.image.load("assets/tekst/setting_sc/point2.png").convert_alpha()
+point2 = pygame.image.load("./tekst/setting_sc/point2.png").convert_alpha()
 point2_rect = point1.get_rect(midbottom = (375, 243))
 
-point3 = pygame.image.load("assets/tekst/setting_sc/point3.png").convert_alpha()
+point3 = pygame.image.load("./tekst/setting_sc/point3.png").convert_alpha()
 point3_rect = point1.get_rect(midbottom = (475, 243))
 
-point4 = pygame.image.load("assets/tekst/setting_sc/point4.png").convert_alpha()
+point4 = pygame.image.load("./tekst/setting_sc/point4.png").convert_alpha()
 point4_rect = point1.get_rect(midbottom = (585, 243))
 
-point5 = pygame.image.load("assets/tekst/setting_sc/point5.png").convert_alpha()
+point5 = pygame.image.load("./tekst/setting_sc/point5.png").convert_alpha()
 point5_rect = point1.get_rect(midbottom = (700, 243))
 
-selector = pygame.image.load("assets/tekst/setting_sc/selector.png").convert_alpha()
-selector_rect = selector.get_rect(midbottom = (475, 243))
+selector = pygame.image.load("./tekst/setting_sc/selector.png").convert_alpha()
+selector_rect = selector.get_rect(midbottom = (current_pos))
 
 #Tutorial Button
-sc_tutorial_btn = pygame.image.load("assets/tekst/tutorial.png").convert_alpha()
-sc_tutorial1_btn = pygame.image.load("assets/explanation/nl/1.png").convert_alpha()
-sc_tutorial2_btn = pygame.image.load("assets/explanation/nl/2.png").convert_alpha()
-sc_tutorial3_btn = pygame.image.load("assets/explanation/nl/3.png").convert_alpha()
-sc_tutorial4_btn = pygame.image.load("assets/explanation/nl/4.png").convert_alpha()
-sc_tutorial5_btn = pygame.image.load("assets/explanation/nl/5.png").convert_alpha()
-sc_tutorial6_btn = pygame.image.load("assets/explanation/nl/6.png").convert_alpha()
-sc_tutorial_btn_back = pygame.image.load("assets/buttons/arrow_back.png").convert_alpha()
-sc_tutorial_btn_forward = pygame.image.load("assets/buttons/arrow_forward.png").convert_alpha()
-sc_tutorial_bg = pygame.image.load("assets/background/tutorial_bg.png").convert_alpha()
-home_button_image = pygame.image.load("assets/buttons/home_button.png").convert_alpha()
+sc_tutorial_btn = pygame.image.load("./tekst/tutorial.png").convert_alpha()
+sc_tutorial1_btn = pygame.image.load("./explanation/nl/1.png").convert_alpha()
+sc_tutorial2_btn = pygame.image.load("./explanation/nl/2.png").convert_alpha()
+sc_tutorial3_btn = pygame.image.load("./explanation/nl/3.png").convert_alpha()
+sc_tutorial4_btn = pygame.image.load("./explanation/nl/4.png").convert_alpha()
+sc_tutorial5_btn = pygame.image.load("./explanation/nl/5.png").convert_alpha()
+sc_tutorial6_btn = pygame.image.load("./explanation/nl/6.png").convert_alpha()
+sc_tutorial_btn_back = pygame.image.load("./buttons/arrow_back.png").convert_alpha()
+sc_tutorial_btn_forward = pygame.image.load("./buttons/arrow_forward.png").convert_alpha()
+sc_tutorial_bg = pygame.image.load("./background/tutorial_bg.png").convert_alpha()
+home_button_image = pygame.image.load("./buttons/home_button.png").convert_alpha()
 home_button_image = pygame.transform.scale(home_button_image, (50, 50))
 home_button_rect = home_button_image.get_rect(topleft=(10, 10))
 tutorial_btn_rect = sc_tutorial_btn.get_rect(midbottom = (100,230))
@@ -95,19 +96,19 @@ tutorial_btn_forward_rect = sc_tutorial_btn_forward.get_rect(midbottom = (775,25
 tutorial_btn_back_rect = sc_tutorial_btn_back.get_rect(midbottom = (25,250))
 
 #Play Button
-sc_play_btn = pygame.image.load("assets/tekst/play.png").convert_alpha()
+sc_play_btn = pygame.image.load("./tekst/play.png").convert_alpha()
 play_btn_rect = sc_play_btn.get_rect(midbottom = (78,285))
 
 #Quit Button
-sc_quit_btn = pygame.image.load("assets/tekst/quit.png").convert_alpha()
+sc_quit_btn = pygame.image.load("./tekst/quit.png").convert_alpha()
 quit_btn_rect = sc_quit_btn.get_rect(midbottom = (74,345))
 
 #settings Button
-sc_setting_btn = pygame.image.load("assets/tekst/setting.png").convert_alpha()
+sc_setting_btn = pygame.image.load("./tekst/setting.png").convert_alpha()
 setting_btn_rect = sc_setting_btn.get_rect(midbottom = (750,75))
 
 # Load music
-pygame.mixer.music.load('songs/Clubstep.mp3')
+pygame.mixer.music.load("./songs/Clubstep.mp3")
 
 # Set volume
 MUSIC_VOLUME = 0.1  # Volume level from 0.0 to 1.0
@@ -184,6 +185,22 @@ while running:
         if home_button_rect.collidepoint(mouse_pos):
           current_screen = 'menu'
 
+      if point1_rect.collidepoint(mouse_pos):
+        current_pos = (265, 180)
+        MUSIC_VOLUME = 0.2
+      elif point2_rect.collidepoint(mouse_pos):
+        current_pos = (365, 180)
+        MUSIC_VOLUME = 0.4
+      elif point3_rect.collidepoint(mouse_pos):
+        current_pos = (465, 180)
+        MUSIC_VOLUME = 0.6
+      elif point4_rect.collidepoint(mouse_pos):
+        current_pos = (575, 180)
+        MUSIC_VOLUME = 0.8
+      elif point5_rect.collidepoint(mouse_pos):
+        current_pos = (690, 180)
+        MUSIC_VOLUME = 1.0
+
   if current_screen == 'menu':
     screen.blit(sc_background, (0, 0))
     screen.blit(game_name, game_name_rect)
@@ -230,16 +247,22 @@ while running:
     pygame.display.flip()
     clock.tick(60)
   elif current_screen == 'setting':
-    screen.blit(setting_bg, (80, 80))
-    screen.blit(exit_btn, exit_btn_rect)
-    screen.blit(volume_icon, (140, 170))
-    screen.blit(volume_line, (265, 205))
-    screen.blit(point1, point1_rect)
-    screen.blit(point2, point2_rect)
-    screen.blit(point3, point3_rect)
-    screen.blit(point4, point4_rect)
-    screen.blit(point5, point5_rect)
-    screen.blit(selector, selector_rect)
+    # Define a list of elements to blit
+    elements_to_blit = [
+        (setting_bg, (80, 80)),
+        (exit_btn, exit_btn_rect),
+        (volume_icon, (140, 170)),
+        (volume_line, (265, 205)),
+        (point1, point1_rect),
+        (point2, point2_rect),
+        (point3, point3_rect),
+        (point4, point4_rect),
+        (point5, point5_rect),
+        (selector, current_pos)
+    ]
+    # Blit all elements in a loop
+    for element, position in elements_to_blit:
+        screen.blit(element, position)
     pygame.display.update()
   elif current_screen == 'tutorial':
     update_tutorial_screen()
