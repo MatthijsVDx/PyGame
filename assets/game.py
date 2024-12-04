@@ -2,12 +2,13 @@ import pygame
 import sys
 import time
 
+
 # Initialize Pygame
 pygame.init()
 
 # Constants
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 400 
+SCREEN_WIDTH = 950
+SCREEN_HEIGHT = 550
 CUBE_SIZE = 52
 PLATFORM_HEIGHT = 20
 INITIAL_CUBE_SPEED = 5  # 5 pixels per frame
@@ -27,7 +28,7 @@ BLACK = (0, 0, 0)
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Geometry Dash")
 
-# Load images
+# Load images level 1
 background_image = pygame.image.load("./background/background.png").convert()
 background_image = pygame.transform.scale(background_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
 
@@ -40,11 +41,20 @@ ground_image = pygame.transform.scale(ground_image, (int(ground_width * 1.5), in
 ground_width, ground_height = ground_image.get_size()
 
 obs_1_image = pygame.image.load("./spikes/obstacle_1.png").convert_alpha()
-obs_1_image = pygame.transform.scale(obs_1_image, (75, 75)) 
+obs_1_image = pygame.transform.scale(obs_1_image, (75, 75))
+
+# Load images level 2
+background_image_2 = pygame.image.load("./background/background_2.png").convert()
+background_image_2 = pygame.transform.scale(background_image_2, (SCREEN_WIDTH, SCREEN_HEIGHT))
+
+ground_image_2 = pygame.image.load("./platforms/main-platform/ground_2.png").convert()
+ground_width, ground_height = ground_image_2.get_size()
+ground_image = pygame.transform.scale(ground_image_2, (int(ground_width * 1.5), int(ground_height * 1.5)))
+ground_width, ground_height = ground_image_2.get_size()
 
 #startscreen background
 sc_background_size = pygame.image.load("./background/bg_startscreen.png")
-sc_background = pygame.transform.scale(sc_background_size, (800, 400))
+sc_background = pygame.transform.scale(sc_background_size, (950, 550))
 sc_decoration = pygame.image.load("./tekst/decoration.png")
 
 #startscreen game name
@@ -94,6 +104,31 @@ home_button_rect = home_button_image.get_rect(topleft=(10, 10))
 tutorial_btn_rect = sc_tutorial_btn.get_rect(midbottom = (100,230))
 tutorial_btn_forward_rect = sc_tutorial_btn_forward.get_rect(midbottom = (775,250))
 tutorial_btn_back_rect = sc_tutorial_btn_back.get_rect(midbottom = (25,250))
+
+# Levels screen
+levels_bg = pygame.image.load("./background/level_bg.png").convert_alpha()
+levels_tekst = pygame.image.load("./tekst/Levels.png").convert_alpha()
+
+level_1 = pygame.image.load("./buttons/level_1.png").convert_alpha()
+level_1_rect = level_1.get_rect(midbottom = (280,280))
+
+level_2 = pygame.image.load("./buttons/level_2.png").convert_alpha()
+level_2_rect = level_2.get_rect(midbottom = (480,280))
+
+level_3 = pygame.image.load("./buttons/level_3.png").convert_alpha()
+level_3_rect = level_3.get_rect(midbottom = (680,280))
+
+level_4 = pygame.image.load("./buttons/level_4.png").convert_alpha()
+level_4_rect = level_4.get_rect(midbottom = (280,400))
+
+level_5 = pygame.image.load("./buttons/level_5.png").convert_alpha()
+level_5_rect = level_5.get_rect(midbottom = (480,400))
+
+level_6 = pygame.image.load("./buttons/level_6.png").convert_alpha()
+level_6_rect = level_6.get_rect(midbottom = (680,400))
+
+exit_lvl_btn_rect = exit_btn.get_rect(midbottom = (790,160))
+
 
 #Play Button
 sc_play_btn = pygame.image.load("./tekst/play.png").convert_alpha()
@@ -167,7 +202,7 @@ while running:
 
       if current_screen == 'menu':
         if play_btn_rect.collidepoint(mouse_pos):
-          current_screen = "main"
+          current_screen = "levels"
         elif tutorial_btn_rect.collidepoint(mouse_pos):
           current_screen = 'tutorial'
         elif quit_btn_rect.collidepoint(mouse_pos):
@@ -184,6 +219,11 @@ while running:
           tutorial_page += 1
         if home_button_rect.collidepoint(mouse_pos):
           current_screen = 'menu'
+      elif current_screen == "levels":
+        if exit_lvl_btn_rect.collidepoint(mouse_pos):
+          current_screen = "menu"
+
+
 
       if point1_rect.collidepoint(mouse_pos):
         current_pos = (265, 180)
@@ -212,7 +252,28 @@ while running:
     screen.blit(sc_decoration, (45, 290))
     screen.blit(sc_decoration, (45, 350))
     pygame.display.update()
-  elif current_screen == 'main':
+
+  elif current_screen == "levels":
+    level_blit = [
+      (levels_bg, (50,40)),
+      (levels_tekst, (350,110)),
+      (exit_btn, exit_lvl_btn_rect),
+      (level_1, level_1_rect),
+      (level_2, level_2_rect),
+      (level_3, level_3_rect),
+      (level_4, level_4_rect),
+      (level_5, level_5_rect),
+      (level_6, level_6_rect),
+    ]
+
+    # Blit all elements in a loop
+    for element, position in level_blit:
+        screen.blit(element, position)
+    pygame.display.update()
+
+
+
+  elif current_screen == 'level_1':
     if count < 1:
       play_music()
     count += 1
@@ -267,7 +328,41 @@ while running:
   elif current_screen == 'tutorial':
     update_tutorial_screen()
     pygame.display.update()
-  pygame.time.Clock().tick(60)
+    pygame.time.Clock().tick(60)
 
+  elif current_screen == 'level_2':
+    if count < 1:
+      play_music()
+    count += 1
+    elapsed_time = time.time() - start_time
+    cube_speed = INITIAL_CUBE_SPEED * (1 + SPEED_INCREASE_RATE * int(elapsed_time))
+    cube_x += cube_speed
+    keys = pygame.key.get_pressed()
+    if (keys[pygame.K_w] or keys[pygame.K_UP] or keys[pygame.K_SPACE]) and not is_jumping:
+      cube_y_velocity = -JUMP_HEIGHT
+      is_jumping = True
+    if (keys[pygame.K_s] or keys[pygame.K_DOWN]) and is_jumping:
+      cube_y_velocity += GRAVITY
+    cube_y_velocity += GRAVITY
+    cube_y += cube_y_velocity
+    if cube_y >= SCREEN_HEIGHT - ground_height - CUBE_SIZE:
+      cube_y = SCREEN_HEIGHT - ground_height - CUBE_SIZE
+      cube_y_velocity = 0
+      is_jumping = False
+    offset_x = cube_x - SCREEN_WIDTH // 2
+    screen.blit(background_image_2, (0, 0))
+    for segment in ground_segments:
+      segment_x, segment_y = segment
+      screen.blit(ground_image_2, (segment_x - offset_x, segment_y))
+    if ground_segments[0][0] - offset_x < -ground_width:
+      ground_segments.pop(0)
+      new_segment_x = ground_segments[-1][0] + ground_width
+      ground_segments.append((new_segment_x, SCREEN_HEIGHT - ground_height))
+    screen.blit(cube_image, (SCREEN_WIDTH // 2 - CUBE_SIZE // 2, cube_y))
+    font = pygame.font.SysFont(None, 36)
+    timer_text = font.render(f"Time: {int(elapsed_time)}s", True, WHITE)
+    screen.blit(timer_text, (10, 10))
+    pygame.display.update()
+    clock.tick(60)
 pygame.quit()
 sys.exit()
