@@ -1,6 +1,7 @@
 import pygame
 import sys
 import time
+import random
 
 
 # Initialize Pygame
@@ -34,14 +35,12 @@ background_image = pygame.transform.scale(background_image, (SCREEN_WIDTH, SCREE
 
 cube_image = pygame.image.load("./player/cube_player.png").convert_alpha()
 cube_image = pygame.transform.scale(cube_image, (CUBE_SIZE, CUBE_SIZE))
+cube_image_rect = cube_image.get_rect(midbottom=(790,462))
 
 ground_image = pygame.image.load("./platforms/main-platform/floor.png").convert()
 ground_width, ground_height = ground_image.get_size()
 ground_image = pygame.transform.scale(ground_image, (int(ground_width * 1.5), int(ground_height * 1.5)))
 ground_width, ground_height = ground_image.get_size()
-
-obs_1_image = pygame.image.load("./spikes/obstacle_1.png").convert_alpha()
-obs_1_image = pygame.transform.scale(obs_1_image, (75, 75))
 
 # Load images level 2
 background_image_2 = pygame.image.load("./background/background_2.png").convert()
@@ -128,6 +127,10 @@ level_6 = pygame.image.load("./buttons/level_6.png").convert_alpha()
 level_6_rect = level_6.get_rect(midbottom = (680,400))
 
 exit_lvl_btn_rect = exit_btn.get_rect(midbottom = (790,160))
+
+# Obstacles
+spike_1 = pygame.image.load("./spikes/obstacle_1.png").convert_alpha()
+spike_1_rect = spike_1.get_rect(midbottom = (790,462))
 
 
 #Play Button
@@ -356,6 +359,13 @@ while running:
     font = pygame.font.SysFont(None, 36)
     timer_text = font.render(f"Time: {int(elapsed_time)}s", True, WHITE)
     screen.blit(timer_text, (10, 10))
+    if spike_1_rect.x < 0:
+      spike_1_rect.x = 950
+    else:
+      spike_1_rect.x -= 5
+
+    screen.blit(spike_1, spike_1_rect)
+
     pygame.display.flip()
     clock.tick(60)
 
