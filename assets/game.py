@@ -365,7 +365,6 @@ while running:
       spike_1_rect.x -= 5
 
     screen.blit(spike_1, spike_1_rect)
-
     pygame.display.flip()
     clock.tick(60)
 
