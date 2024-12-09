@@ -243,7 +243,7 @@ while running:
       # Setting sound slider
       if point1_rect.collidepoint(mouse_pos):
         current_pos = (310, 267.5)
-        MUSIC_VOLUME = 0.2
+        MUSIC_VOLUME = 0.4
       elif point2_rect.collidepoint(mouse_pos):
         current_pos = (410, 267.5)
         MUSIC_VOLUME = 0.4
