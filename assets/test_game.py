@@ -1,6 +1,11 @@
 import pygame
 import sys
 import time
+import math
+from random import randrange
+
+
+
 # import random
 
 # Initialize Pygame
@@ -14,9 +19,10 @@ PLATFORM_HEIGHT = 20
 INITIAL_CUBE_SPEED = 8  # 5 pixels per frame
 SPEED_INCREASE_RATE = 0.05
 current_pos = (510, 267.5)
-
 y_velocity = 15
 jump = False
+game_over = False
+start_game = False
 
 
 # Screen management
@@ -30,13 +36,27 @@ BLACK = (0, 0, 0)
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Geometry Dash")
 
+
+bg_con = pygame.image.load('background/bg_con.png').convert()
+
+# Load image
+bg = pygame.image.load('background/background_2.png').convert()
+bg_width = bg.get_width()
+bg_floor = pygame.image.load("platforms/main-platform/ground_2.png").convert()
+bg_floor_width = bg_floor.get_width()
+bg_floor_height = bg_floor.get_height()
+bg_floor_rect = bg_floor.get_rect()
+
+ground = (SCREEN_HEIGHT - bg_floor_height)
+
 # Load images level 1
 background_image = pygame.image.load("./background/background.png").convert()
 background_image = pygame.transform.scale(background_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
 
 cube_player = pygame.image.load("./player/cube_player.png").convert_alpha()
 cube_player = pygame.transform.scale(cube_player, (CUBE_SIZE, CUBE_SIZE))
-cube_player_rect = cube_player.get_rect(midbottom=(200, 461))
+cube_player_height = cube_player.get_height()
+cube_player_rect = cube_player.get_rect(midbottom=(200, ground))
 
 ground_image = pygame.image.load("./platforms/main-platform/floor.png").convert()
 ground_width, ground_height = ground_image.get_size()
@@ -133,7 +153,7 @@ exit_lvl_btn_rect = exit_btn.get_rect(midbottom=(790, 160))
 
 # Obstacles
 spike_1 = pygame.image.load("./spikes/obstacle_1.png").convert_alpha()
-spike_1_rect = spike_1.get_rect(midbottom=(790, 462))
+spike_1_rect = spike_1.get_rect(midbottom=(790, ground))
 
 block_1 = pygame.image.load("./platforms/main-platform/block.png").convert_alpha()
 block_1 = pygame.transform.scale(block_1, (50, 50))
@@ -162,20 +182,22 @@ pygame.mixer.music.set_volume(MUSIC_VOLUME)
 # function for music
 def play_music():
     pygame.mixer.music.play(-1)  # -1 means the music will loop indefinitely
+def stop_music():
+    pygame.mixer.music.stop()
 
 
-# count for music so it plaus in the loop
+# count for music so it plays in the loop
 count = 0
 
-# Cube position and velocity
-cube_x = 100
-cube_y = SCREEN_HEIGHT - ground_height - CUBE_SIZE
-cube_y_velocity = 0
-is_jumping = False
 
-# Ground segments
-ground_segments = [(i * ground_width, SCREEN_HEIGHT - ground_height / 2) for i in range(3)]
-ground_height = ground_height // 2
+
+
+# Define game variables
+
+tiles_bg = math.ceil(SCREEN_WIDTH / bg_width) + 1
+tiles_floor = math.ceil(SCREEN_WIDTH / bg_floor_width) + 1
+scroll_bg = 0
+scroll_floor = 0
 
 # Timer
 start_time = time.time()
@@ -188,7 +210,6 @@ tutorial_page = 1
 
 # Initialize clock
 clock = pygame.time.Clock()
-
 
 # Mouse click
 def mouse_click():
@@ -249,6 +270,9 @@ while running:
         if exit_lvl_btn_rect.collidepoint(mouse_pos):
           current_screen = "menu"
           mouse_click()
+      elif current_screen == "con":
+        if exit_btn_rect.collidepoint(mouse_pos):
+            current_screen = "levels"
 
 
       # Setting sound slider
@@ -271,19 +295,28 @@ while running:
       # Level chooser
       if level_1_rect.collidepoint(mouse_pos):
         current_screen = 'level_1'
+        start_game = True
+        game_over = False
       elif level_2_rect.collidepoint(mouse_pos):
-        current_screen = 'level_2'
+        current_screen = 'con'
       elif level_3_rect.collidepoint(mouse_pos):
-        current_screen = 'level_3'
+        current_screen = 'con'
       elif level_4_rect.collidepoint(mouse_pos):
-        current_screen = 'level_4'
+        current_screen = 'con'
       elif level_5_rect.collidepoint(mouse_pos):
-        current_screen = 'level_5'
+        current_screen = 'con'
       elif level_6_rect.collidepoint(mouse_pos):
-        current_screen = 'level_6'
+        current_screen = 'con'
+
+    if current_screen == 'con':
+        screen.blit(bg_con, (70,70))
+        screen.blit(exit_btn, exit_btn_rect)
+        pygame.display.flip()
 
   # Menu screen
   if current_screen == 'menu':
+    start_game = False
+    game_over = False
     screen.blit(sc_background, (0, 0))
     screen.blit(game_name, game_name_rect)
     screen.blit(sc_play_btn, play_btn_rect)
@@ -331,6 +364,7 @@ while running:
       (level_4, level_4_rect),
       (level_5, level_5_rect),
       (level_6, level_6_rect),
+
     ]
     # Blit all elements in a loop
     for element, position in level_blit:
@@ -339,35 +373,71 @@ while running:
 
   # Level 1
   elif current_screen == 'level_1':
-    # Music
-    if count < 1:
-      play_music()
-    count += 1
-    elapsed_time = time.time() - start_time
-   # Ground movement
+    if not game_over and start_game:
+        # Music
+        if count < 1:
+          play_music()
+        count += 1
+        elapsed_time = time.time() - start_time
 
-    # Player
-    screen.blit(cube_player, cube_player_rect)
-    screen.blit(block_1, block_1_rect)
+        # Draw background
+        for i in range(0, tiles_bg):
+            screen.blit(bg, (i * bg_width + scroll_bg, 0))
+        for i in range(0, tiles_floor):
+            screen.blit(bg_floor, (i * bg_floor_width + scroll_floor, SCREEN_HEIGHT - bg_floor_height))
 
-    # Jump-function
-    keys = pygame.key.get_pressed()
-    if jump is False and keys[pygame.K_SPACE]:
-        jump = True
-    if jump:
-        cube_player_rect.bottom -= y_velocity
-        y_velocity -= 1
-        if y_velocity < -15:
-            jump = False
-            y_velocity = 15
+        # Scroll background
+        scroll_bg -= 1
+        scroll_floor -= 7
 
+        # Reset scroll
+        if abs(scroll_bg) > bg_width:
+            scroll_bg = 0
+        if abs(scroll_floor) > bg_floor_width:
+            scroll_floor = 0
 
-    font = pygame.font.SysFont(None, 36)
-    timer_text = font.render(f"Time: {int(elapsed_time)}s", True, WHITE)
-    screen.blit(timer_text, (10, 10))
+        # Spawn player
+        screen.blit(cube_player, cube_player_rect)
 
-    # screen.blit(spike_1, spike_1_rect)
+        # Jump-function
+        keys = pygame.key.get_pressed()
+        if jump is False and keys[pygame.K_SPACE] :
+            jump = True
+        if jump:
+            cube_player_rect.bottom -= y_velocity
+            y_velocity -= 1
+            if y_velocity < -15:
+                jump = False
+                y_velocity = 15
+
+        # Obstacles
+        screen.blit(spike_1, spike_1_rect)
+
+        # Movement
+        if cube_player_rect.x != (bg_floor_width / 2):
+            cube_player_rect.x += 1
+        else:
+            pass
+        spike_1_rect.x -= 5  # Moving obstacle
+        if spike_1_rect.x < -10:
+            spike_1_rect.x = 950
+
+        # Collision
+        if cube_player_rect.colliderect(spike_1_rect):
+            cube_player_rect.x = 0
+            spike_1_rect.x = SCREEN_WIDTH + 10
+            game_over = True
+            count = 0
+            stop_music()
+
+        font = pygame.font.SysFont(None, 36)
+        timer_text = font.render(f"Time: {int(elapsed_time)}s", True, WHITE)
+        screen.blit(timer_text, (10, 10))
+    else:
+        current_screen = 'menu'
+
     pygame.display.flip()
     clock.tick(60)
+
 pygame.quit()
 sys.exit()
