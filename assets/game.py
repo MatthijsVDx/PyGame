@@ -1,7 +1,42 @@
 import pygame
 import sys
 import time
+import os
 import random
+
+'''
+TODO:
+- Add more obstacles
+- Add more platforms
+- Add more levels
+- Add random music selection from a list of songs. AND: Add a button to change the song in the settings menu
+- Add a pause menu
+- Add a game over screen
+- Add a score system
+- Add a high score system
+- Add the dropdown with the song choices in the settings menu
+- Add a max speed for the cube so it doesn't go too fast and the game becomes impossible to play
+- MAYBE: Add your own music to the game
+- MAYBE: Add a level editor
+- MAYBE: Add a multiplayer mode
+- MAYBE: Add a shop to buy skins for the cube
+- MAYBE: Add a currency system
+- MAYBE: Add a leaderboard
+- MAYBE: Turn off music in the settings menu
+- MAYBE: Add a sound effects volume slider in the settings menu
+- MAYBE: Add a sound effects on/off button in the settings menu
+- MAYBE: Add a music on/off button in the settings menu
+- MAYBE: Add a fullscreen button in the settings menu
+- MAYBE: Add a resolution button in the settings menu
+- MAYBE: Add a language button in the settings menu
+- MAYBE: Add a credits button in the settings menu
+- MAYBE: Add a button to reset the high score in the settings menu
+- MAYBE: Add a button to reset the settings in the settings menu
+- MAYBE: Add a button to reset the game in the settings menu 
+
+BUGS:
+
+'''
 
 
 # Initialize Pygame
@@ -27,7 +62,7 @@ BLACK = (0, 0, 0)
 
 # Set up the display
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption("Geometry Dash")
+pygame.display.set_caption("Jumanji Dash")
 
 # Load images level 1
 background_image = pygame.image.load("./background/background.png").convert()
